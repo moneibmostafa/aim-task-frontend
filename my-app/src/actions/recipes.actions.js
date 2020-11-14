@@ -5,14 +5,19 @@ import { recipesService } from '../services';
 
 export const recipesActions = {
     setStep,
-    // filesAdded,
-    // fileRemoved,
+    addNewIngredientEmptyField,
+    handleChangeFields,
+    filesAdded,
+    fileRemoved,
+    submitRecipe,
+    getAllRecipes,
+    getRecipeData,
     // getTicketCategories,
     // createProblemTicket,
     // getMyTickets,
     // getTicketData,
     // submitReply,
-  };
+};
 
   function setStep(step) {
     return (dispatch) => {
@@ -20,144 +25,134 @@ export const recipesActions = {
     };
   }
 
-  function filesAdded(files) {
+  function addNewIngredientEmptyField() {
     return (dispatch) => {
-      dispatch({type: reportProblemConstants.FILE_ADD, files});
+      dispatch({type: recipesConstants.ADD_EMPTY_FIELD});
+    };
+  }
+
+  function handleChangeFields(name, value, index) {
+    return (dispatch) => {
+      dispatch({type: recipesConstants.CHANGE_FIELDS, name, value, index });
+    };
+  }
+
+  function filesAdded(file) {
+      console.log('ffffffffffffffffffffffffffffff', file)
+    return (dispatch) => {
+      dispatch({type: recipesConstants.FILE_ADD, file});
     };
   }
   
   function fileRemoved(file) {
     return (dispatch) => {
-      dispatch({type: reportProblemConstants.FILE_REMOVE, file});
+      dispatch({type: recipesConstants.FILE_REMOVE, file});
     };
   }  
 
-  function getTicketCategories() {
+  function submitRecipe(recipeObject) {
     return async (dispatch) => {
-        await dispatch(request());
-        try {
-          const {data} = await reportProblemService.getTicketCategories();
-          dispatch(success(data));
-        } catch (ex) {
-          dispatch(failure(ex.message));
-        }
-      };
-    
-      function request() {
-        return {type: reportProblemConstants.GET_TICKET_CATEGORIES_REQUEST};
-      }
-    
-      function success(categories) {
-        return {type: reportProblemConstants.GET_TICKET_CATEGORIES_SUCCESS, categories};
-      }
-    
-      function failure(error) {
-        return {type: reportProblemConstants.GET_TICKET_CATEGORIES_FAILURE, error};
-      }
-  }
-
-  function createProblemTicket(ticketObject) {
-    return async (dispatch) => {
-      await dispatch(request(ticketObject));
+      dispatch(request(recipeObject));
       try {
-        const {data} = await reportProblemService.createTicket(ticketObject);
+        const {data} = await recipesService.createRecipe(recipeObject);
         dispatch(clear());
         dispatch(success(data));
-        dispatch(
-          alertActions.success({header: 'Problem submitted successfully'}),
-        );
-        history.push(`ticket/${data._id}`);
+        // dispatch(
+        //   alertActions.success({header: 'Recipe submitted successfully'}),
+        // );
+        // history.push(`ticket/${data._id}`);
       } catch (ex) {
         dispatch(failure(ex));
-        dispatch(alertActions.error({header: ex.message}));
+        // dispatch(alertActions.error({header: ex.message}));
       }
     };
   
     function request() {
-      return {type: reportProblemConstants.REPORT_PROBLEM_REQUEST};
+      return {type: recipesConstants.CREATE_RECIPE_REQUEST};
     }
   
-    function success(ticket) {
-      return {type: reportProblemConstants.REPORT_PROBLEM_SUCCESS, ticket};
+    function success(recipe) {
+      return {type: recipesConstants.CREATE_RECIPE_SUCCESS, recipe};
     }
   
     function failure(errors) {
-      return {type: reportProblemConstants.REPORT_PROBLEM_FAILURE, errors};
+        console.log(errors);
+      return {type: recipesConstants.CREATE_RECIPE_FAILURE, errors};
     }
   
     function clear() {
-      return {type: reportProblemConstants.CLEAR};
+      return {type: recipesConstants.CLEAR};
     }
   }
 
-  function getMyTickets() {
+  function getAllRecipes() {
     return async (dispatch) => {
-        await dispatch(request());
+        dispatch(request());
         try {
-          const {data} = await reportProblemService.getMyTickets();
-          dispatch(success(data));
+          const {data} = await recipesService.getAllRecipes();
+          dispatch(success(data.recipes));
         } catch (ex) {
           dispatch(failure(ex.message));
         }
       };
     
       function request() {
-        return {type: reportProblemConstants.GET_TICKETS_REQUEST};
+        return {type: recipesConstants.GET_RECIPES_REQUEST};
       }
     
-      function success(tickets) {
-        return {type: reportProblemConstants.GET_TICKETS_SUCCESS, tickets};
+      function success(recipes) {
+        return {type: recipesConstants.GET_RECIPES_SUCCESS, recipes};
       }
     
       function failure(error) {
-        return {type: reportProblemConstants.GET_TICKETS_FAILURE, error};
+        return {type: recipesConstants.GET_RECIPES_FAILURE, error};
       }
   }
 
-  function getTicketData(ticketId) {
+  function getRecipeData(recipeId) {
     return async (dispatch) => {
-        await dispatch(request());
+        dispatch(request());
         try {
-          const {data} = await reportProblemService.getTicketData(ticketId);
-          dispatch(success(data));
+          const {data} = await recipesService.getRecipeData(recipeId);
+          dispatch(success(data.recipe));
         } catch (ex) {
           dispatch(failure(ex.message));
         }
       };
     
       function request() {
-        return {type: reportProblemConstants.GET_TICKET_DATA_REQUEST};
+        return {type: recipesConstants.GET_RECIPE_DATA_REQUEST};
       }
     
-      function success(ticketData) {
-        return {type: reportProblemConstants.GET_TICKET_DATA_SUCCESS, ticketData};
+      function success(recipeData) {
+        return {type: recipesConstants.GET_RECIPE_DATA_SUCCESS, recipeData};
       }
     
       function failure(error) {
-        return {type: reportProblemConstants.GET_TICKET_DATA_FAILURE, error};
+        return {type: recipesConstants.GET_RECIPE_DATA_FAILURE, error};
       }
   }
 
-  function submitReply(text, ticketId) {
-    return async (dispatch) => {
-        await dispatch(request());
-        try {
-          const {data} = await reportProblemService.replyToTicket(text, ticketId);
-          dispatch(success(data));
-        } catch (ex) {
-          dispatch(failure(ex.message));
-        }
-      };
+//   function submitReply(text, ticketId) {
+//     return async (dispatch) => {
+//         await dispatch(request());
+//         try {
+//           const {data} = await reportProblemService.replyToTicket(text, ticketId);
+//           dispatch(success(data));
+//         } catch (ex) {
+//           dispatch(failure(ex.message));
+//         }
+//       };
     
-      function request() {
-        return {type: reportProblemConstants.REPLY_TO_TICKET_REQUEST};
-      }
+//       function request() {
+//         return {type: reportProblemConstants.REPLY_TO_TICKET_REQUEST};
+//       }
     
-      function success(ticketData) {
-        return {type: reportProblemConstants.REPLY_TO_TICKET_SUCCESS, ticketData};
-      }
+//       function success(ticketData) {
+//         return {type: reportProblemConstants.REPLY_TO_TICKET_SUCCESS, ticketData};
+//       }
     
-      function failure(error) {
-        return {type: reportProblemConstants.REPLY_TO_TICKET_FAILURE, error};
-      }
-  }
+//       function failure(error) {
+//         return {type: reportProblemConstants.REPLY_TO_TICKET_FAILURE, error};
+//       }
+//  }

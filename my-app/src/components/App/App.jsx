@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 // import { alertActions, validatorActions } from '../../actions';
 // import { PrivateRoute, PublicRoute } from '../../routes';
 import { routeConstants } from '../../constants';
-import { Recipes, CreateRecipe } from '../Recipes';
+import { RecipesPage, CreateRecipe } from '../Recipes';
+import { RecipePage } from '../RecipePage';
 
 import {createBrowserHistory} from 'history';
 export const history = createBrowserHistory();
@@ -28,7 +29,12 @@ export class AppContainer extends Component {
             <Route
               exact
               path={routeConstants.RECIPES}
-              component={Recipes}
+              component={RecipesPage}
+            />
+            <Route
+              exact
+              path={routeConstants.RECIPE_VIEW}
+              component={RecipePage}
             />
             <Route
               exact
