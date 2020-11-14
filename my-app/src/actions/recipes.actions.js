@@ -1,7 +1,7 @@
 import { recipesConstants } from '../constants';
 import { recipesService } from '../services';
 // import {alertActions} from './alert.actions';
-// import {history} from "../helpers";
+import { history } from "../history";
 
 export const recipesActions = {
     setStep,
@@ -12,6 +12,8 @@ export const recipesActions = {
     submitRecipe,
     getAllRecipes,
     getRecipeData,
+    deleteRecipe,
+    updateRecipe,
     // getTicketCategories,
     // createProblemTicket,
     // getMyTickets,
@@ -57,6 +59,7 @@ export const recipesActions = {
         const {data} = await recipesService.createRecipe(recipeObject);
         dispatch(clear());
         dispatch(success(data));
+        history.push('/');
         // dispatch(
         //   alertActions.success({header: 'Recipe submitted successfully'}),
         // );
@@ -76,8 +79,44 @@ export const recipesActions = {
     }
   
     function failure(errors) {
-        console.log(errors);
+      console.log(errors);
       return {type: recipesConstants.CREATE_RECIPE_FAILURE, errors};
+    }
+  
+    function clear() {
+      return {type: recipesConstants.CLEAR};
+    }
+  }
+
+  function updateRecipe(recipeObject) {
+    return async (dispatch) => {
+      dispatch(request(recipeObject));
+      try {
+        const {data} = await recipesService.updateRecipe(recipeObject);
+        dispatch(clear());
+        dispatch(success());
+        history.push(`/${recipeObject._id}`);
+        // dispatch(
+        //   alertActions.success({header: 'Recipe submitted successfully'}),
+        // );
+        // history.push(`ticket/${data._id}`);
+      } catch (ex) {
+        dispatch(failure(ex));
+        // dispatch(alertActions.error({header: ex.message}));
+      }
+    };
+  
+    function request() {
+      return {type: recipesConstants.UPDATE_RECIPE_REQUEST};
+    }
+  
+    function success() {
+      return {type: recipesConstants.UPDATE_RECIPE_SUCCESS};
+    }
+  
+    function failure(errors) {
+      console.log(errors);
+      return {type: recipesConstants.UPDATE_RECIPE_FAILURE, errors};
     }
   
     function clear() {
@@ -105,6 +144,7 @@ export const recipesActions = {
       }
     
       function failure(error) {
+        console.log(error);
         return {type: recipesConstants.GET_RECIPES_FAILURE, error};
       }
   }
@@ -129,30 +169,33 @@ export const recipesActions = {
       }
     
       function failure(error) {
+        console.log(error);
         return {type: recipesConstants.GET_RECIPE_DATA_FAILURE, error};
       }
   }
 
-//   function submitReply(text, ticketId) {
-//     return async (dispatch) => {
-//         await dispatch(request());
-//         try {
-//           const {data} = await reportProblemService.replyToTicket(text, ticketId);
-//           dispatch(success(data));
-//         } catch (ex) {
-//           dispatch(failure(ex.message));
-//         }
-//       };
+  function deleteRecipe(recipeId) {
+    return async (dispatch) => {
+        await dispatch(request());
+        try {
+          const {data} = await recipesService.deleteRecipe(recipeId);
+          dispatch(success(data.recipes));
+          history.push('/');
+        } catch (ex) {
+          dispatch(failure(ex.message));
+        }
+      };
     
-//       function request() {
-//         return {type: reportProblemConstants.REPLY_TO_TICKET_REQUEST};
-//       }
+      function request() {
+        return {type: recipesConstants.DELETE_RECIPE_REQUEST};
+      }
     
-//       function success(ticketData) {
-//         return {type: reportProblemConstants.REPLY_TO_TICKET_SUCCESS, ticketData};
-//       }
+      function success(recipes) {
+        return {type: recipesConstants.DELETE_RECIPE_SUCCESS, recipes};
+      }
     
-//       function failure(error) {
-//         return {type: reportProblemConstants.REPLY_TO_TICKET_FAILURE, error};
-//       }
-//  }
+      function failure(error) {
+        console.log(error);
+        return {type: recipesConstants.DELETE_RECIPE_FAILURE, error};
+      }
+ }

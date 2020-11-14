@@ -8,7 +8,7 @@ import { store } from './store';
 ReactDOM.render(
     // <CookiesProvider>
         <Provider store={store}>
-            <App />
+                <App />
         </Provider>,
     // </CookiesProvider>,
     document.getElementById('root'),

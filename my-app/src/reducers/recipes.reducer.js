@@ -7,7 +7,7 @@ import { recipesConstants } from "../constants";
         creatorName: '',
         description: '',
         servings: 1,
-        step: '',
+        step: recipesConstants.DATA,
         nutrition: {
             calories: 0,
             protein: 0,
@@ -98,38 +98,43 @@ import { recipesConstants } from "../constants";
             ...state,
           };             
         case recipesConstants.GET_RECIPE_DATA_SUCCESS:
-            const recipeData = {
-                title: action.recipeData.title,
-                creatorName: action.recipeData.creatorName,
-                servings: action.recipeData.servings,
-                description: action.recipeData.description,
-                nutrition: action.recipeData.nutritionFacts,
-                ingredients: action.recipeData.ingredients,
-                recipeSteps: action.recipeData.recipeSteps,
-                _id: action.recipeData._id,
-                createdAt: action.recipeData.createdAt,
-                views: action.recipeData.views,
+                state.recipe.title = action.recipeData.title;
+                state.recipe.creatorName = action.recipeData.creatorName;
+                state.recipe.servings = action.recipeData.servings;
+                state.recipe.description = action.recipeData.description;
+                state.recipe.nutrition = action.recipeData.nutritionFacts;
+                state.recipe.ingredients = action.recipeData.ingredients;
+                state.recipe.recipeSteps = action.recipeData.recipeSteps;
+                state.recipe._id = action.recipeData._id;
+                state.recipe.createdAt = action.recipeData.createdAt;
+                state.recipe.views = action.recipeData.views;
                 // images,            
-            };
-            console.log('kkkkkkkkkkkkkkkkkkkk', recipeData)
-          return { ...state, recipe: recipeData };  
+          return { ...state };  
         case recipesConstants.GET_RECIPE_DATA_FAILURE:
-          return { ...state };          
+          return { ...state };     
+          
+        /////////////////// UPDATE RECIPE //////////////////
+        case recipesConstants.UPDATE_RECIPE_REQUEST:
+          return { ...state };             
+        case recipesConstants.UPDATE_RECIPE_SUCCESS:
+          return { ...state };  
+        case recipesConstants.UPDATE_RECIPE_FAILURE:
+          return { ...state };               
 
-        // //////////////////////// REPLY //////////////////////
-        // case reportProblemConstants.REPLY_TO_TICKET_REQUEST:
-        //   return {
-        //     ...state,
-        //   };             
-        // case reportProblemConstants.REPLY_TO_TICKET_SUCCESS:
-        //   return {
-        //     ...state,
-        //     ticketData: action.ticketData,
-        //   };  
-        // case reportProblemConstants.REPLY_TO_TICKET_FAILURE:
-        //   return {
-        //     ...state,
-        //   };           
+        //////////////////////// DELETE //////////////////////
+        case recipesConstants.DELETE_RECIPE_REQUEST:
+          return {
+            ...state,
+          };             
+        case recipesConstants.DELETE_RECIPE_SUCCESS:
+          return {
+            ...state,
+            recipes: action.recipes,
+          };  
+        case recipesConstants.DELETE_RECIPE_FAILURE:
+          return {
+            ...state,
+          };           
                   
         ///////////////////// CLEAR STATE ///////////////////
         case recipesConstants.CLEAR:

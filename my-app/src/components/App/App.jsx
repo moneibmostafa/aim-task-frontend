@@ -5,12 +5,9 @@ import { connect } from 'react-redux';
 // import { alertActions, validatorActions } from '../../actions';
 // import { PrivateRoute, PublicRoute } from '../../routes';
 import { routeConstants } from '../../constants';
-import { RecipesPage, CreateRecipe } from '../Recipes';
+import { RecipesPage, CreateRecipe, updateRecipe } from '../Recipes';
 import { RecipePage } from '../RecipePage';
-
-import {createBrowserHistory} from 'history';
-export const history = createBrowserHistory();
-
+import { history } from '../../history';
 
 export class AppContainer extends Component {
   constructor(props) {
@@ -33,16 +30,21 @@ export class AppContainer extends Component {
             />
             <Route
               exact
-              path={routeConstants.RECIPE_VIEW}
-              component={RecipePage}
-            />
-            <Route
-              exact
               path={routeConstants.RECIPE_CREATE}
               component={CreateRecipe}
             />
+            <Route
+              exact
+              path={routeConstants.RECIPE_UPDATE}
+              component={updateRecipe}
+            />
+            <Route
+              exact
+              path={routeConstants.RECIPE_VIEW}
+              component={RecipePage}
+            />
 
-            <Redirect from='*' to={routeConstants.RECIPES} />
+            {/* <Redirect from='*' to={routeConstants.RECIPES} /> */}
           </Switch>
         </Router>
       </div>

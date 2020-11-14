@@ -7,7 +7,8 @@ export const recipesService = {
     createRecipe,
     getAllRecipes,
     getRecipeData,
-    // replyToTicket,
+    deleteRecipe,
+    updateRecipe,
 };
 
 const apiEndpoint = apiUrl + "/recipes";
@@ -28,6 +29,10 @@ function getRecipeData(recipeId) {
   return httpService.get(`${apiEndpoint}/${recipeId}`);
 }
 
-// function replyToTicket(text, ticketId) {
-//   return httpService.put(`${apiEndpoint}/reply/${ticketId}`, { text });
-// }
+function deleteRecipe(recipeId) {
+  return httpService.delete(`${apiEndpoint}/${recipeId}`);
+}
+
+function updateRecipe(recipeObject) {
+  return httpService.put(`${apiEndpoint}/${recipeObject._id}`, recipeObject);
+}

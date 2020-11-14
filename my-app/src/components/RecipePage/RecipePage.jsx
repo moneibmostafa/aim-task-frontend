@@ -4,6 +4,7 @@ import { Label, Card, Segment, Image, Grid, List, Button, Icon } from "semantic-
 import { Link } from "react-router-dom";
 
 import { recipesActions } from "../../actions";
+import { routeConstants } from "../../constants";
 // import { backendUrl } from "../../config";
 // import Slider from "react-slick";
 // import { isEmpty } from "lodash";
@@ -11,7 +12,6 @@ import { recipesActions } from "../../actions";
 class RecipePage extends Component {
 
   async componentDidMount() {
-      console.log('ggggggggggggggggggggggggggg')
     await this.props.getRecipeData(this.props.match.params.id);
   }
 
@@ -26,7 +26,11 @@ class RecipePage extends Component {
     if (this.state.reply === '') return;
     await this.props.submitReply(this.state.reply, this.props.ticketData._id);
     this.setState({ reply: '' });
-  }
+  };
+
+  handleDeleteRecipe = async () => {
+    await this.props.deleteRecipe(this.props.recipe._id);
+  };
 
 //   renderImages = ticket => {
 //     const settings = {
@@ -68,9 +72,7 @@ class RecipePage extends Component {
           <Grid.Row style={{ marginButtom: '40px' }}>
             <Button icon labelPosition='left'>
               <Icon name='left arrow' />
-              <Link to={`/`}>
-                Return to Recipes
-              </Link>
+              <Link to={`/`}>Return to Recipes</Link>
             </Button>
           </Grid.Row>
           <Grid.Row>
@@ -135,6 +137,15 @@ class RecipePage extends Component {
                   </Card.Description>
                 </Card.Content>
               </Card>
+              <React.Fragment>
+                <Button 
+                  color='blue' 
+                  floated='left' 
+                  as={Link} 
+                  to={`update/${recipe._id}`}
+                >Update</Button>
+                <Button onClick={this.handleDeleteRecipe} color='red' floated='right'>Delete</Button>
+              </React.Fragment>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -150,6 +161,7 @@ function mapState(state) {
 
 const actionCreators = {
     getRecipeData: recipesActions.getRecipeData,
+    deleteRecipe: recipesActions.deleteRecipe,
 };
 
 const connectedRecipePage = connect(mapState, actionCreators)(RecipePage);

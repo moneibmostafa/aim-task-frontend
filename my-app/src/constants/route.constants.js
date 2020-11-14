@@ -1,5 +1,6 @@
 export const routeConstants = {
+    RECIPE_VIEW: '/:id',
+    RECIPE_CREATE: '/create',
+    RECIPE_UPDATE: '/update/:id',
     RECIPES: '/',
-    RECIPE_VIEW: '/recipe/:id',
-    RECIPE_CREATE: '/recipe/create',
 };

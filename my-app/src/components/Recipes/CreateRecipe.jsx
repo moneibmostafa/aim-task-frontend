@@ -57,19 +57,21 @@ class CreateRecipe extends Component {
     handleSubmit = async () => {
         const canSubmit = this.checkSubmittedFields();
         console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', canSubmit);
-        await this.props.submitRecipe(this.props.recipe);
+        if (!this.props.update) await this.props.submitRecipe(this.props.recipe);
+        else await this.props.updateRecipe(this.props.recipe);
     }
 
     render() {
-        const { step, title, description, servings, creatorName, nutrition, ingredients, recipeSteps, file } = this.props.recipe;
-        console.log('ssssssssssssssssssssssss', file)
+        const { step, title, description, servings, creatorName, nutrition, ingredients, recipeSteps, file, _id } = this.props.recipe;
+        const { update } = this.props;
         return(
             <Container fluid>
                 <Segment textAlign="center" style={{ padding: "3em 3em" }} vertical>
                     <Header as="h1" color="teal" textAlign="center">
-                        Create New Recipe
+                        {update ? 'Update Recipe' : 'Create New Recipe'}
                     </Header>
                 </Segment>
+                {((update && _id) || !update) && 
                 <Segment>
                     <Grid columns={2} stackable>
                         <Divider vertical></Divider>
@@ -110,7 +112,7 @@ class CreateRecipe extends Component {
                                             floated='right'
                                             color='teal'
                                             onClick={this.handleSubmit}
-                                        > Submit
+                                        > {update ? 'Update' : 'Submit'}
                                         </Button>
                                     ) : (
                                         <Button
@@ -144,7 +146,7 @@ class CreateRecipe extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                </Segment>
+                </Segment>}
             </Container>
         );
     }
@@ -164,6 +166,7 @@ const actionCreators = {
     filesAdded: recipesActions.filesAdded,
     fileRemoved: recipesActions.fileRemoved,
     submitRecipe: recipesActions.submitRecipe,
+    updateRecipe: recipesActions.updateRecipe,
     // add: postActions.add,
     // stepIncrement: postActions.stepIncrement,
     // stepDecrement: postActions.stepDecrement,

@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Card, Container, Image, Header, Label } from "semantic-ui-react";
+import { Card, Container, Image, Header, Label, Button } from "semantic-ui-react";
 // import Slider from "react-slick";
 // import { backendUrl } from "../../config";
 import { recipesActions } from "../../actions";
+import { routeConstants } from "../../constants";
 
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
@@ -13,6 +14,10 @@ class RecipesPage extends Component {
   async componentDidMount() {
     await this.props.getAllRecipes();
   }
+
+  handleDeleteRecipe = async (recipeId) => {
+    await this.props.deleteRecipe(recipeId);
+  };
 
 //   renderImages = (tickets) => {
 //     const settings = {
@@ -49,6 +54,9 @@ class RecipesPage extends Component {
       ) : (
         <Header as='h2'> No Recipes Issued </Header>        
       )}
+      <Button as={Link} to={routeConstants.RECIPE_CREATE} floated="right">
+        Create Recipe
+      </Button>
       <br />
       <br />
         <Card.Group centered itemsPerRow={2} stackable>
@@ -58,7 +66,7 @@ class RecipesPage extends Component {
                 {/* {this.renderImages(ticket)} */}
               <Card.Content>
                 <Fragment>
-                  <Card.Header><Link to={`/recipe/${recipe._id}`}>{recipe.title}</Link></Card.Header>
+                  <Card.Header><Link to={`/${recipe._id}`}>{recipe.title}</Link></Card.Header>
                   <Card.Meta>
                     <strong>Created By : </strong>
                     {recipe.creatorName ? recipe.creatorName : 'Anonymous'}
@@ -77,6 +85,9 @@ class RecipesPage extends Component {
                   </Card.Description>
                 </Fragment>
               </Card.Content>
+              <Card.Content>
+                <Button onClick={() => this.handleDeleteRecipe(recipe._id)} basic color='red'>Delete</Button>
+              </Card.Content>
             </Card>)
           )}
         </Card.Group>
@@ -92,6 +103,7 @@ function mapState(state) {
 
 const actionCreators = {
     getAllRecipes: recipesActions.getAllRecipes,
+    deleteRecipe: recipesActions.deleteRecipe,
 };
 const connectedRecipesPage = connect(mapState, actionCreators)(RecipesPage);
 export { connectedRecipesPage as RecipesPage };

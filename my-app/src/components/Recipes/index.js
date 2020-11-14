@@ -4,3 +4,4 @@ export * from './DataPage';
 export * from './IngredientsPage';
 export * from './Ingredient';
 export * from './recipePage';
+export * from './updateRecipe';
