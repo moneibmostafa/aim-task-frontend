@@ -1,0 +1,5 @@
+export const validatorConstants = {
+    INPUT_VALIDATE_SUCCESS: 'INPUT_VALIDATE_SUCCESS',
+    INPUT_VALIDATE_FAILURE: 'INPUT_VALIDATE_FAILURE',
+  };
+  

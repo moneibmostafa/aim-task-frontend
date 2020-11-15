@@ -17,7 +17,7 @@ const scaleOptions = () => {
     return options;
 }
 
-const Ingredient = ({ingredient, handleChange, index}) => {
+const Ingredient = ({ingredient, handleChange, index, errors}) => {
     let scOptions = [];
     for (let i = 1; i <= 100; i++) {
         scOptions.push({ key: i, text: `${i}`, value: i });
@@ -35,7 +35,7 @@ const Ingredient = ({ingredient, handleChange, index}) => {
                     placeholder='Ingredient'
                     value={ingredient.ingredient}
                     onChange={handleChange}
-                    // error={errors && errors.country}
+                    error={errors && errors.ingredient}
                 />                
                 <Form.Dropdown
                     width={1}
@@ -49,7 +49,6 @@ const Ingredient = ({ingredient, handleChange, index}) => {
                     value={ingredient.type}
                     onChange={handleChange}
                     options={options}
-                    // error={errors && errors.city}
                 />                
                 <Form.Dropdown
                     width={1}
@@ -62,7 +61,6 @@ const Ingredient = ({ingredient, handleChange, index}) => {
                     value={ingredient.size}
                     onChange={handleChange}
                     options={scOptions}
-                    // error={errors && errors.city}
                 />
             </Form.Group>
         </Grid.Row>

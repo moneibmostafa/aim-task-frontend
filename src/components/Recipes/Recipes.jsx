@@ -1,13 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Card, Container, Image, Header, Label, Button } from "semantic-ui-react";
-// import Slider from "react-slick";
-// import { backendUrl } from "../../config";
 import { recipesActions } from "../../actions";
 import { routeConstants } from "../../constants";
-
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 
 class RecipesPage extends Component {
@@ -19,30 +14,19 @@ class RecipesPage extends Component {
     await this.props.deleteRecipe(recipeId);
   };
 
-//   renderImages = (tickets) => {
-//     const settings = {
-//       dots: false,
-//       autoplay: true,
-//       autoplaySpeed: 2000,
-//       infinite: true,
-//       speed: 1000,
-//       slidesToShow: 1,
-//       slidesToScroll: 1,
-//       arrows: false,
-//       adaptiveHeight: false,
-//     };
-//     return (
-//       <Slider {...settings}>
-//         {tickets.images.map((image) => {
-//           return (
-//             <div key={image}>
-//               <Image src={`${backendUrl}/${image}`} rounded fluid />
-//             </div>
-//           );
-//         })}
-//       </Slider>
-//     );
-//   };
+  renderImage = recipeImage => {
+    return (
+      <div key={recipeImage}>
+        <Image
+          centered
+          src={`${process.env.REACT_APP_BACKEND_URL}/${recipeImage}`}
+          rounded
+          wrapped
+          fluid
+        />
+      </div>
+    );
+  };
 
    render() {
     const { recipes } = this.props;
@@ -60,10 +44,10 @@ class RecipesPage extends Component {
       <br />
       <br />
         <Card.Group centered itemsPerRow={2} stackable>
-          {recipes  && recipes.length !== 0 && 
+          {recipes && recipes.length !== 0 && 
           recipes.map((recipe) => (
             <Card key={recipe._id}>
-                {/* {this.renderImages(ticket)} */}
+                {this.renderImage(recipe.image)}
               <Card.Content>
                 <Fragment>
                   <Card.Header><Link to={`/${recipe._id}`}>{recipe.title}</Link></Card.Header>

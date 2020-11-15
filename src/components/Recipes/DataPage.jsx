@@ -1,6 +1,6 @@
 import { Form } from "semantic-ui-react";
 
-const DataPage = ({ title, creatorName, servings, description, handleSubmit, handleChange }) => {
+const DataPage = ({ title, creatorName, servings, description, handleSubmit, handleChange, errors }) => {
     let options = [];
     for (let i = 1; i <= 10; i++) {
         options.push({ key: i, text: '' + i, value: i });
@@ -11,7 +11,6 @@ const DataPage = ({ title, creatorName, servings, description, handleSubmit, han
             <Form.Input required
                 label='Recipe Title'
                 textAlign='left'
-                // disabled={!this.state.noSubmission}
                 name='title'
                 size='small'
                 icon='food'
@@ -19,12 +18,11 @@ const DataPage = ({ title, creatorName, servings, description, handleSubmit, han
                 placeholder='Recipe Title'
                 value={title}
                 onChange={handleChange}
-                // error={errors && errors.name}
+                error={errors && errors.title}
             />
             <Form.Input required
                 label='Creator Name'
                 textAlign='left'
-                // disabled={!this.state.noSubmission}
                 name='creatorName'
                 size='small'
                 icon='user'
@@ -32,29 +30,27 @@ const DataPage = ({ title, creatorName, servings, description, handleSubmit, han
                 value={creatorName}
                 placeholder='Name'
                 onChange={handleChange}
-                // error={errors && errors.email}
+                error={errors && errors.creatorName}
             />
             <Form.Dropdown required
                 selection
                 label='Number of Servings'
                 textAlign='left'
-                // disabled={!this.state.noSubmission}
                 name='servings'
                 size='small'
                 value={servings}
                 onChange={handleChange}
                 options={options}
-                // error={errors && errors.country}
+                error={errors && errors.servings}
             />
             <Form.TextArea required
                 label='Description'
                 textAlign='left'
-                // disabled={!this.state.noSubmission}
                 name='description'
                 placeholder='Description ...'
                 value={description}
                 onChange={handleChange}
-                // error={errors && errors.message} 
+                error={errors && errors.description} 
             >
             </Form.TextArea>
         </Form>

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Switch, Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import { withCookies } from 'react-cookie';
-// import { alertActions, validatorActions } from '../../actions';
-// import { PrivateRoute, PublicRoute } from '../../routes';
 import { routeConstants } from '../../constants';
 import { RecipesPage, CreateRecipe, updateRecipe } from '../Recipes';
 import { RecipePage } from '../RecipePage';
@@ -12,10 +9,7 @@ import { history } from '../../history';
 export class AppContainer extends Component {
   constructor(props) {
     super(props);
-    history.listen((location, action) => {
-      // this.props.clearAlerts();
-      // this.props.clearValidation();
-    });
+    history.listen((location, action) => {});
   }
 
   render() {
@@ -57,11 +51,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-  // clearAlerts: alertActions.clear,
-  // clearValidation: validatorActions.clear,
 };
 
 const connectedApp = connect(mapState, actionCreators)(AppContainer);
-// const appWithCookies = withCookies(connectedApp);
-// export { appWithCookies as App };
 export { connectedApp as App };

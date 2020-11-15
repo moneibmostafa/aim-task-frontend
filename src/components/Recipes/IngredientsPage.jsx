@@ -1,7 +1,7 @@
 import { Form, Divider, Grid, Button } from "semantic-ui-react";
 import Ingredient from "./Ingredient";
 
-const IngredientsPage = ({ ingredients, handleSubmit, handleChange, handleNewIngredient }) => {
+const IngredientsPage = ({ ingredients, handleSubmit, handleChange, handleNewIngredient, errors }) => {
     return(
         <Form size='large' onSubmit={handleSubmit}>
             <Divider />
@@ -13,6 +13,7 @@ const IngredientsPage = ({ ingredients, handleSubmit, handleChange, handleNewIng
                         index={index}
                         ingredient={ingredient}
                         handleChange={handleChange}
+                        errors={errors}
                     />
                 })}
             </Grid>

@@ -15,7 +15,7 @@ import { recipesConstants } from "../constants";
             carbohydrates: 0,
             sodium: 0,
         },
-        ingredients: [{ingredient: '', type: '', size: ''}],
+        ingredients: [{ingredient: '', type: 'Scale', size: 1}],
         recipeSteps: '',
         file: '',
     },
@@ -35,7 +35,7 @@ import { recipesConstants } from "../constants";
         ///////////////////// RECIPE FIELDS ///////////////////
         case recipesConstants.ADD_EMPTY_FIELD:
             const { ingredients } = state.recipe;
-            ingredients.push({ingredient: '', type: '', size: ''});
+            ingredients.push({ingredient: '', type: 'Scale', size: 1});
             return { ...state, recipe: { ...state.recipe, ingredients} };  
 
         case recipesConstants.CHANGE_FIELDS:
@@ -51,11 +51,6 @@ import { recipesConstants } from "../constants";
             recipeOld[action.name] = action.value;
             return { ...state, recipe: recipeOld };              
 
-        ///////////////////// UPLOAD FILES ///////////////////
-        case recipesConstants.FILE_ADD:
-            console.log('kkkkkkkkkkkkkkkkkkk', action.file[0])
-          return { ...state, file: action.file };
-
         ///////////////////// CREATE RECIPE ///////////////////
         case recipesConstants.CREATE_RECIPE_REQUEST:
           return {
@@ -70,12 +65,6 @@ import { recipesConstants } from "../constants";
           return {
             ...state,
           };          
-
-        // case recipesConstants.FILE_REMOVE:
-        //   return {
-        //     ...state,
-        //     files: state.files.filter(f => f !== action.file)
-        //   };
           
         //////////////////// VIEW Recipes //////////////////
         case recipesConstants.GET_RECIPES_REQUEST:
@@ -108,7 +97,7 @@ import { recipesConstants } from "../constants";
                 state.recipe._id = action.recipeData._id;
                 state.recipe.createdAt = action.recipeData.createdAt;
                 state.recipe.views = action.recipeData.views;
-                // images,            
+                state.recipe.file = action.recipeData.image;
           return { ...state };  
         case recipesConstants.GET_RECIPE_DATA_FAILURE:
           return { ...state };     

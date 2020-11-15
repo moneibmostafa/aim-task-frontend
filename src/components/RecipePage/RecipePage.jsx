@@ -4,10 +4,6 @@ import { Label, Card, Segment, Image, Grid, List, Button, Icon } from "semantic-
 import { Link } from "react-router-dom";
 
 import { recipesActions } from "../../actions";
-import { routeConstants } from "../../constants";
-// import { backendUrl } from "../../config";
-// import Slider from "react-slick";
-// import { isEmpty } from "lodash";
 
 class RecipePage extends Component {
 
@@ -32,36 +28,19 @@ class RecipePage extends Component {
     await this.props.deleteRecipe(this.props.recipe._id);
   };
 
-//   renderImages = ticket => {
-//     const settings = {
-//       dots: false,
-//       autoplay: true,
-//       autoplaySpeed: 2000,
-//       infinite: true,
-//       speed: 1000,
-//       slidesToShow: 1,
-//       slidesToScroll: 1,
-//       arrows: false,
-//       adaptiveHeight: false
-//     };
-//     return (
-//       <Slider {...settings}>
-//         {ticket.images.map(image => {
-//           return (
-//             <div key={image}>
-//               <Image
-//                 centered
-//                 src={`${backendUrl}/${image}`}
-//                 rounded
-//                 wrapped
-//                 fluid
-//               />
-//             </div>
-//           );
-//         })}
-//       </Slider>
-//     );
-//   };
+  renderImage = recipeImage => {
+    return (
+      <div key={recipeImage}>
+        <Image
+          centered
+          src={`${process.env.REACT_APP_BACKEND_URL}/${recipeImage}`}
+          rounded
+          wrapped
+          fluid
+        />
+      </div>
+    );
+  };
 
   render() {
     const { recipe } = this.props;
@@ -80,9 +59,9 @@ class RecipePage extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={4}>
-              {/* <Grid.Row>
-                <Link to={""}>{ticket && this.renderImages(ticket)}</Link>
-              </Grid.Row> */}
+              <Grid.Row>
+                <Link to={""}>{recipe && this.renderImage(recipe.file)}</Link>
+              </Grid.Row>
             </Grid.Column>
             <Grid.Column width={8}>
               <Card fluid>

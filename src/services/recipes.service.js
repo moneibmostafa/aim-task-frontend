@@ -1,5 +1,4 @@
 import { httpService } from "./";
-// import { apiUrl } from "../config";
 export const backendUrl = process.env.REACT_APP_BACKEND_URL;
 export const apiUrl = backendUrl + "/api";
 
@@ -14,11 +13,9 @@ export const recipesService = {
 const apiEndpoint = apiUrl + "/recipes";
 
 function createRecipe(recipeObject) {
-    console.log('pppppppppppppppppppppppppppppppp', recipeObject);
-//   return httpService.post(`${apiEndpoint}/`, { recipeObject }, {
-//     headers: {'Content-Type': 'multipart/form-data'},
-//   });
-  return httpService.post(`${apiEndpoint}/`, recipeObject);
+  return httpService.post(apiEndpoint, recipeObject, {
+    headers: {'Content-Type': 'multipart/form-data'},
+  });
 }
 
 function getAllRecipes() {
@@ -33,6 +30,8 @@ function deleteRecipe(recipeId) {
   return httpService.delete(`${apiEndpoint}/${recipeId}`);
 }
 
-function updateRecipe(recipeObject) {
-  return httpService.put(`${apiEndpoint}/${recipeObject._id}`, recipeObject);
+function updateRecipe(recipeObject, recipeId) {
+  return httpService.put(`${apiEndpoint}/${recipeId}`, recipeObject, {
+    headers: {'Content-Type': 'multipart/form-data'},
+  });
 }

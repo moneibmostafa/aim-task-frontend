@@ -1,24 +1,16 @@
 import { recipesConstants } from '../constants';
 import { recipesService } from '../services';
-// import {alertActions} from './alert.actions';
 import { history } from "../history";
 
 export const recipesActions = {
     setStep,
     addNewIngredientEmptyField,
     handleChangeFields,
-    filesAdded,
-    fileRemoved,
     submitRecipe,
     getAllRecipes,
     getRecipeData,
     deleteRecipe,
     updateRecipe,
-    // getTicketCategories,
-    // createProblemTicket,
-    // getMyTickets,
-    // getTicketData,
-    // submitReply,
 };
 
   function setStep(step) {
@@ -37,19 +29,6 @@ export const recipesActions = {
     return (dispatch) => {
       dispatch({type: recipesConstants.CHANGE_FIELDS, name, value, index });
     };
-  }
-
-  function filesAdded(file) {
-      console.log('ffffffffffffffffffffffffffffff', file)
-    return (dispatch) => {
-      dispatch({type: recipesConstants.FILE_ADD, file});
-    };
-  }
-  
-  function fileRemoved(file) {
-    return (dispatch) => {
-      dispatch({type: recipesConstants.FILE_REMOVE, file});
-    };
   }  
 
   function submitRecipe(recipeObject) {
@@ -60,13 +39,8 @@ export const recipesActions = {
         dispatch(clear());
         dispatch(success(data));
         history.push('/');
-        // dispatch(
-        //   alertActions.success({header: 'Recipe submitted successfully'}),
-        // );
-        // history.push(`ticket/${data._id}`);
       } catch (ex) {
         dispatch(failure(ex));
-        // dispatch(alertActions.error({header: ex.message}));
       }
     };
   
@@ -88,21 +62,16 @@ export const recipesActions = {
     }
   }
 
-  function updateRecipe(recipeObject) {
+  function updateRecipe(recipeObject, recipeId) {
     return async (dispatch) => {
       dispatch(request(recipeObject));
       try {
-        const {data} = await recipesService.updateRecipe(recipeObject);
+        const {data} = await recipesService.updateRecipe(recipeObject, recipeId);
         dispatch(clear());
         dispatch(success());
-        history.push(`/${recipeObject._id}`);
-        // dispatch(
-        //   alertActions.success({header: 'Recipe submitted successfully'}),
-        // );
-        // history.push(`ticket/${data._id}`);
+        history.push(`/${recipeId}`);
       } catch (ex) {
         dispatch(failure(ex));
-        // dispatch(alertActions.error({header: ex.message}));
       }
     };
   
