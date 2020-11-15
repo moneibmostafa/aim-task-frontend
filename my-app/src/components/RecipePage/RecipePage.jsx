@@ -108,7 +108,7 @@ class RecipePage extends Component {
                   <Card.Description style={{ marginBottom: '20px' }}>
                     <strong>Ingredients : </strong>
                     <List bulleted>
-                        {recipe && recipe.ingredients.length !== 0 && 
+                        {recipe && recipe.ingredients && recipe.ingredients.length !== 0 && 
                         recipe.ingredients.map((ingredient, index) => {
                             return ( 
                                 <List.Item key={index}> 
